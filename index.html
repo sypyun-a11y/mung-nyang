@@ -914,6 +914,7 @@
 /* ── DATA ── */
 const BREEDS = [
   { id:'maltese',      name:'말티즈',              color:'#F5F0FF', emoji:'🤍' },
+  { id:'mix',          name:'믹스견',               color:'#FFF0E8', emoji:'🌈' },
   { id:'pomeranian',   name:'포메라니안',           color:'#FFE8D6', emoji:'🧡' },
   { id:'shiba',        name:'시바이누',             color:'#FFE0C8', emoji:'🦊' },
   { id:'corgi',        name:'웰시코기',             color:'#FFF0C0', emoji:'🐕' },
@@ -931,10 +932,10 @@ const BREEDS = [
   { id:'spitz',        name:'스피츠',               color:'#FFFFF0', emoji:'✨' },
   { id:'goldendoodle', name:'골든두들',             color:'#FFEDB0', emoji:'💛' },
   { id:'westie',       name:'웨스트하이랜드테리어', color:'#F8F8F8', emoji:'🤍' },
-  { id:'mix',          name:'믹스견',               color:'#FFF0E8', emoji:'🌈' },
 ];
 const CAT_BREEDS = [
   { id:'godeungeo',  name:'고등어냥',       color:'#E8E8E8', emoji:'🐈' },
+  { id:'catmix',     name:'믹스묘',         color:'#FFF0E8', emoji:'🌈' },
   { id:'cheese',     name:'치즈냥',         color:'#FFF4CC', emoji:'🧡' },
   { id:'tuxedo',     name:'턱시도냥',       color:'#F5F5F5', emoji:'🖤' },
   { id:'calico',     name:'삼색이냥',       color:'#FFE8E0', emoji:'🎨' },
@@ -947,7 +948,6 @@ const CAT_BREEDS = [
   { id:'ragdoll',    name:'랙돌',           color:'#F0E8FF', emoji:'💜' },
   { id:'siamese',    name:'샴',             color:'#F5DEB3', emoji:'🏺' },
   { id:'maincoon',   name:'메인쿤',         color:'#D4C4A8', emoji:'🦁' },
-  { id:'catmix',     name:'믹스묘',         color:'#FFF0E8', emoji:'🌈' },
 ];
 const ZODIAC = ['원숭이','닭','개','돼지','쥐','소','호랑이','토끼','용','뱀','말','양'];
 const ZOD_EMOJI = {
@@ -1134,6 +1134,33 @@ function switchPetType(type) {
 }
 
 (function() { renderBreedGrid(); })();
+
+/* ── DATE INPUT AUTO MOVE ── */
+function initDateInputs() {
+  // 보호자
+  const oYear  = document.getElementById('oYear');
+  const oMonth = document.getElementById('oMonth');
+  const oDay   = document.getElementById('oDay');
+  // 반려동물
+  const dYear  = document.getElementById('dYear');
+  const dMonth = document.getElementById('dMonth');
+  const dDay   = document.getElementById('dDay');
+
+  function limitAndMove(el, maxLen, nextEl) {
+    el.addEventListener('input', () => {
+      if (el.value.length > maxLen) el.value = el.value.slice(0, maxLen);
+      if (el.value.length === maxLen && nextEl) nextEl.focus();
+    });
+  }
+
+  limitAndMove(oYear,  4, oMonth);
+  limitAndMove(oMonth, 2, oDay);
+  limitAndMove(oDay,   2, null);
+  limitAndMove(dYear,  4, dMonth);
+  limitAndMove(dMonth, 2, dDay);
+  limitAndMove(dDay,   2, null);
+}
+initDateInputs();
 
 /* ── NAV ── */
 function go(id) {
